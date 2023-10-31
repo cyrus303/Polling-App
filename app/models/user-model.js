@@ -14,6 +14,9 @@ const userSchema = new Schema(
     password: {
       type: String,
     },
+    registrationDate: {
+      type: Date,
+    },
   },
   {timestamps: true}
 );

@@ -27,4 +27,25 @@ const userRegistrationSchema = {
   },
 };
 
-module.exports = userRegistrationSchema;
+const userLoginSchema = {
+  email: {
+    notEmpty: {
+      errorMessage: 'Email is required',
+    },
+    isEmail: {
+      errorMessage: 'Email format is invalid',
+    },
+  },
+  password: {
+    notEmpty: {
+      errorMessage: 'Password is required',
+    },
+    isLength: {
+      options: {min: 8, max: 128},
+      errorMessage:
+        'password should be between 8 - 128 characters long',
+    },
+  },
+};
+
+module.exports = {userRegistrationSchema, userLoginSchema};
