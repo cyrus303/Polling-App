@@ -14,12 +14,8 @@ const pollSchema = new Schema({
   creationDate: {
     type: Date,
   },
-  ExpiryDate: {
+  expiryDate: {
     type: Date,
-  },
-  category: {
-    type: Schema.Types.ObjectId,
-    ref: 'categorySchema',
   },
   options: [
     {
@@ -41,4 +37,4 @@ const categorySchema = new Schema({
 const PollModel = model('PollModel', pollSchema);
 const CategoryModel = model('CategoryModel', categorySchema);
 
-module.exports = UserModel;
+module.exports = {PollModel, CategoryModel};

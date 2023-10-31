@@ -5,6 +5,7 @@ const authenticateUser = async (request, response, next) => {
     const token = request.headers.authorization;
     const tokenData = jwt.verify(token, 'dct@123');
     request.userId = token.id;
+    next();
   } catch (error) {
     response.send(error);
   }
