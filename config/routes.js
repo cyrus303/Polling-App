@@ -26,5 +26,6 @@ router.post(
 router.post('/polls', authenticateUser, pollsCtrl.create);
 router.get('/polls/:pollId', authenticateUser, pollsCtrl.list);
 router.put('/polls/:pollId', authenticateUser, pollsCtrl.update);
+router.delete('/polls/:pollId', authenticateUser, pollsCtrl.distroy);
 
 module.exports = router;

@@ -42,13 +42,14 @@ pollsCtrl.update = async (request, response) => {
       'duration',
     ]);
 
-    //*todo if duration is provided find the record to get the created date
-    // if (duration) {
-    //     const expirationTime = body.duration * 1000; // Convert duration to milliseconds
-    //     body.expiryDate = new Date(
-    //       body.creationDate.getTime() + expirationTime
-    //     );
-    // }
+    if (updateData.duration) {
+      const document = await PollModel.findById(pollId);
+      const createdDate = document.creationDate;
+      const expirationTime = updateData.duration * 1000; // Convert duration to milliseconds
+      updateData.expiryDate = new Date(
+        createdDate.getTime() + expirationTime
+      );
+    }
 
     const updatedPoll = await PollModel.findOneAndUpdate(
       {_id: pollId}, // The filter to find the document to update
@@ -66,6 +67,20 @@ pollsCtrl.update = async (request, response) => {
     }
   } catch (error) {
     response.status(500).send({error: error.message});
+  }
+};
+
+pollsCtrl.distroy = async (request, response) => {
+  try {
+    const {pollId} = request.params;
+    const document = await PollModel.findByIdAndDelete(pollId);
+    if (document) {
+      response.send({document, message: 'poll deleted'});
+    } else {
+      response.send('poll not found');
+    }
+  } catch (error) {
+    response.send(error);
   }
 };
 
