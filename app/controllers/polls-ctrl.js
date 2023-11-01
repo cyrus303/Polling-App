@@ -1,4 +1,5 @@
-const {PollModel} = require('../models/poll-model');
+const PollModel = require('../models/poll-model');
+const UserModel = require('../models/user-model');
 const {validationResult} = require('express-validator');
 
 const _ = require('lodash');
@@ -21,6 +22,14 @@ pollsCtrl.create = async (request, response) => {
     message: 'Poll created',
     id: poll._id,
   });
+
+  const userData = await UserModel.findByIdAndUpdate(
+    request.userId, // The user's ID
+    {
+      $push: {pollsCreated: poll._id}, // Use $push to add the new poll ID to the array
+    },
+    {new: true} // To return the updated user document
+  );
 };
 
 pollsCtrl.list = async (request, response) => {

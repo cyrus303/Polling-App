@@ -17,6 +17,12 @@ const userSchema = new Schema(
     registrationDate: {
       type: Date,
     },
+    pollsCreated: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'PollModel',
+      },
+    ],
   },
   {timestamps: true}
 );

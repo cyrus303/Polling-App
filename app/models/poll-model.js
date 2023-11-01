@@ -26,15 +26,6 @@ const pollSchema = new Schema({
   ],
 });
 
-//category schema = name
-
-const categorySchema = new Schema({
-  name: {
-    type: String,
-  },
-});
-
 const PollModel = model('PollModel', pollSchema);
-const CategoryModel = model('CategoryModel', categorySchema);
 
-module.exports = {PollModel, CategoryModel};
+module.exports = PollModel;

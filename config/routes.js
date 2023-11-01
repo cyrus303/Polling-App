@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userCtrl = require('../app/controllers/user-ctrl');
 const pollsCtrl = require('../app/controllers/polls-ctrl');
+const votesCtrl = require('../app/controllers/votes-ctrl');
 
 const {
   userRegistrationSchema,
@@ -28,4 +29,5 @@ router.get('/polls/:pollId', authenticateUser, pollsCtrl.list);
 router.put('/polls/:pollId', authenticateUser, pollsCtrl.update);
 router.delete('/polls/:pollId', authenticateUser, pollsCtrl.distroy);
 
+router.post('/polls/vote/:pollId', authenticateUser, votesCtrl.vote);
 module.exports = router;
