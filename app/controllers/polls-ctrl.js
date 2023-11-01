@@ -12,11 +12,12 @@ pollsCtrl.create = async (request, response) => {
     'options',
     'duration',
   ]);
-  body.creationDate = new Date(); // Create a new Date object for the current date and time
-  const expirationTime = body.duration * 1000; // Convert duration to milliseconds
+  body.creationDate = new Date();
+  const expirationTime = body.duration * 60000;
   body.expiryDate = new Date(
     body.creationDate.getTime() + expirationTime
   );
+  body.creator = request.userId;
   const poll = await PollModel.create(body);
   response.send({
     message: 'Poll created',
@@ -88,6 +89,29 @@ pollsCtrl.distroy = async (request, response) => {
     } else {
       response.send('poll not found');
     }
+  } catch (error) {
+    response.send(error);
+  }
+};
+
+pollsCtrl.active = async (request, response) => {
+  try {
+    const currentDate = new Date();
+    const activePolls = await PollModel.find({
+      expiryDate: {$gt: currentDate},
+    });
+
+    response.send(activePolls);
+  } catch (error) {
+    response.send(error);
+  }
+};
+
+pollsCtrl.myPoll = async (request, response) => {
+  try {
+    const userId = request.userId;
+    const userPolls = await PollModel.find({creator: userId});
+    response.send(userPolls);
   } catch (error) {
     response.send(error);
   }

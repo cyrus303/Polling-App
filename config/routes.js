@@ -24,7 +24,10 @@ router.post(
   userCtrl.login
 );
 
+router.get('/polls/active', pollsCtrl.active);
+
 router.post('/polls', authenticateUser, pollsCtrl.create);
+router.get('/polls/myPolls', authenticateUser, pollsCtrl.myPoll);
 router.get('/polls/:pollId', authenticateUser, pollsCtrl.list);
 router.put('/polls/:pollId', authenticateUser, pollsCtrl.update);
 router.delete('/polls/:pollId', authenticateUser, pollsCtrl.distroy);
