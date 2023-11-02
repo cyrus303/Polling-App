@@ -17,6 +17,10 @@ const pollSchema = new Schema({
   expiryDate: {
     type: Date,
   },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'categorySchema',
+  },
   options: [
     {
       optionText: {

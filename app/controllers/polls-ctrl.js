@@ -145,4 +145,16 @@ pollsCtrl.results = async (request, response) => {
   }
 };
 
+pollsCtrl.search = async (request, response) => {
+  try {
+    const {keyword} = request.query;
+    const matched_polls = await PollModel.find({
+      question: {$regex: keyword, $options: 'i'},
+    });
+    response.send({polls: matched_polls});
+  } catch (error) {
+    response.send(error);
+  }
+};
+
 module.exports = pollsCtrl;
