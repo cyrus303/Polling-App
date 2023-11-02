@@ -1,5 +1,6 @@
 const PollModel = require('../models/poll-model');
 const UserModel = require('../models/user-model');
+const VoteModel = require('../models/vote-model');
 const {validationResult} = require('express-validator');
 
 const _ = require('lodash');
@@ -112,6 +113,33 @@ pollsCtrl.myPoll = async (request, response) => {
     const userId = request.userId;
     const userPolls = await PollModel.find({creator: userId});
     response.send(userPolls);
+  } catch (error) {
+    response.send(error);
+  }
+};
+
+pollsCtrl.results = async (request, response) => {
+  try {
+    const inputPollId = request.params.pollId;
+    const poll = await PollModel.findOne({_id: inputPollId});
+    const votes = await VoteModel.find({pollId: inputPollId});
+
+    const optionCounts = {};
+    votes.forEach((vote) => {
+      const optionId = vote.optionId.toString();
+      if (optionCounts[optionId]) {
+        optionCounts[optionId]++;
+      } else {
+        optionCounts[optionId] = 1;
+      }
+    });
+
+    const result = poll.options.map((option) => ({
+      optionText: option.optionText,
+      count: optionCounts[option._id.toString()] || 0,
+    }));
+
+    response.send({pollId: inputPollId, results: result});
   } catch (error) {
     response.send(error);
   }

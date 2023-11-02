@@ -25,6 +25,7 @@ router.post(
 );
 
 router.get('/polls/active', pollsCtrl.active);
+router.get('/polls/results/:pollId', pollsCtrl.results);
 
 router.post('/polls', authenticateUser, pollsCtrl.create);
 router.get('/polls/myPolls', authenticateUser, pollsCtrl.myPoll);
