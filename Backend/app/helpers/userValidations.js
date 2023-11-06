@@ -14,6 +14,16 @@ const userRegistrationSchema = {
     isEmail: {
       errorMessage: 'Email format is invalid',
     },
+    custom: {
+      options: async (value) => {
+        const user = await UserModel.findOne({email: value});
+        if (user) {
+          throw new Error('Email already registred');
+        } else {
+          return true;
+        }
+      },
+    },
   },
   password: {
     notEmpty: {
